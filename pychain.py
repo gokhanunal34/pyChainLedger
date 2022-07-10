@@ -55,26 +55,6 @@ class Record:
     sender: str
     receiver: str
     amount: float
-    creator_id: int
-    timestamp: str = datetime.datetime.utcnow().strftime("%H:%M:%S")
-    prev_hash: str = "0"
-    
-    def hash_block(self):
-        sha = hashlib.sha256()
-        #record
-        record = str(self.record).encode()
-        sha.update(record)
-        #prev_hash
-        prev_hash = str(self.prev_hash).encode()
-        sha.update(prev_hash)
-        #timestamp
-        timestamp = str(self.timestamp).encode()
-        sha.update(timestamp)
-        #nonce
-        nonce = str(self.nonce).encode()
-        sha.update(nonce)
-
-        return sha.hexdigest()
 
 ################################################################################
 # Step 2:
