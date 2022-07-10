@@ -55,6 +55,26 @@ class Record:
     sender: str
     receiver: str
     amount: float
+    creator_id: int
+    timestamp: str = datetime.datetime.utcnow().strftime("%H:%M:%S")
+    prev_hash: str = "0"
+    
+    def hash_block(self):
+        sha = hashlib.sha256()
+        #record
+        record = str(self.record).encode()
+        sha.update(record)
+        #prev_hash
+        prev_hash = str(self.prev_hash).encode()
+        sha.update(prev_hash)
+        #timestamp
+        timestamp = str(self.timestamp).encode()
+        sha.update(timestamp)
+        #nonce
+        nonce = str(self.nonce).encode()
+        sha.update(nonce)
+
+        return sha.hexdigest()
 
 ################################################################################
 # Step 2:
@@ -73,7 +93,6 @@ class Block:
     # @TODO
     # Rename the `data` attribute to `record`, and set the data type to `Record`
     record: Record
-    
     creator_id: int
     prev_hash: str = "0"
     timestamp: str = datetime.datetime.utcnow().strftime("%H:%M:%S")
@@ -193,14 +212,15 @@ if st.button("Add Block"):
     # Update `new_block` so that `Block` consists of an attribute named `record`
     # which is set equal to a `Record` that contains the `sender`, `receiver`,
     # and `amount` values
-    new_block = Record(
+    record = Record(
+        creator_id = 42,
         sender=sender, 
         receiver=receiver,
         amount = amount,
         prev_hash=prev_block_hash
     )
 
-    pychain.add_block(new_block)
+    pychain.add_block(record)
     st.balloons()
 
 ################################################################################
