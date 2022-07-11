@@ -83,6 +83,9 @@ class Block:
         #record
         record = str(self.record).encode()
         sha.update(record)
+        #creator_id
+        creator_id = str(self.creator_id).encode()
+        sha.update(creator_id)
         #prev_hash
         prev_hash = str(self.prev_hash).encode()
         sha.update(prev_hash)
@@ -192,15 +195,13 @@ if st.button("Add Block"):
     # Update `new_block` so that `Block` consists of an attribute named `record`
     # which is set equal to a `Record` that contains the `sender`, `receiver`,
     # and `amount` values
-    record = Record(
-        creator_id = 42,
-        sender=sender, 
-        receiver=receiver,
-        amount = amount,
+    new_block = Block(
+        record = Record,
+        creator_id=42,
         prev_hash=prev_block_hash
     )
 
-    pychain.add_block(record)
+    pychain.add_block(new_block)
     st.balloons()
 
 ################################################################################
